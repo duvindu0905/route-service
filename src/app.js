@@ -11,6 +11,11 @@ app.use(express.json());
 connectDB();
 
 // Routes
-app.use('/api', sampleRoute);
+app.use('/api', sampleRoute); // Example: All routes under "/api"
+
+// Root route
+app.get('/', (req, res) => {
+  res.send('Welcome to Route Service!'); // Customize this message
+});
 
 module.exports = app;
