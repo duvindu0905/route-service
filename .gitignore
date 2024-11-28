@@ -1,5 +1,2 @@
-# Ignore the environment file containing sensitive credentials
 .env
-
-# Ignore Node.js modules
 node_modules/
