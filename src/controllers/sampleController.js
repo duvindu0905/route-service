@@ -1,4 +1,4 @@
-const Route = require('../models/sampleModel');
+const Route = require('../models/sampleModel'); // Import the Mongoose model
 
 // Get all routes
 exports.getAllRoutes = async (req, res) => {
@@ -10,10 +10,23 @@ exports.getAllRoutes = async (req, res) => {
   }
 };
 
-// Get a route by ID
+// Get a specific route by MongoDB _id
 exports.getRouteById = async (req, res) => {
   try {
     const route = await Route.findById(req.params.id);
+    if (!route) {
+      return res.status(404).json({ message: 'Route not found' });
+    }
+    res.status(200).json(route);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch route', error: err.message });
+  }
+};
+
+// Get a specific route by routeId
+exports.getRouteByRouteId = async (req, res) => {
+  try {
+    const route = await Route.findOne({ routeId: req.params.routeId });
     if (!route) {
       return res.status(404).json({ message: 'Route not found' });
     }
@@ -50,27 +63,14 @@ exports.createRoute = async (req, res) => {
   }
 };
 
-// Update a route
-exports.updateRoute = async (req, res) => {
-  try {
-    const updatedRoute = await Route.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-    if (!updatedRoute) {
-      return res.status(404).json({ message: 'Route not found' });
-    }
-    res.status(200).json(updatedRoute);
-  } catch (err) {
-    res.status(400).json({ message: 'Failed to update route', error: err.message });
-  }
-};
-
-// Delete a route
+// Delete a route by MongoDB _id
 exports.deleteRoute = async (req, res) => {
   try {
     const route = await Route.findByIdAndDelete(req.params.id);
     if (!route) {
       return res.status(404).json({ message: 'Route not found' });
     }
-    res.status(204).send(); // No content
+    res.status(204).send(); // No Content
   } catch (err) {
     res.status(500).json({ message: 'Failed to delete route', error: err.message });
   }
