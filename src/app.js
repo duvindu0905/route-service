@@ -1,21 +1,29 @@
 const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger/swagger.json'); // Import the Swagger JSON file
 const connectDB = require('./config/db');
-const sampleRoute = require('./routes/sampleRoute');
+const routes = require('./routes/sampleRoute');
 
 const app = express();
 
 // Middleware
-app.use(express.json());
+app.use(cors());
+app.use(bodyParser.json());
 
-// Database connection
+// Connect to MongoDB
 connectDB();
 
 // Routes
-app.use('/api', sampleRoute); // Example: All routes under "/api"
+app.use('/api', routes);
 
-// Root route
-app.get('/', (req, res) => {
-  res.send('Welcome to Route Service!'); // Customize this message
+// Swagger UI Route
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// Default fallback route
+app.use((req, res) => {
+  res.status(404).json({ message: 'Route not found' });
 });
 
 module.exports = app;
