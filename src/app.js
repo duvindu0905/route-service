@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const connectDB = require('./config/db'); // Import database connection
-const sampleRoutes = require('./routes/sampleRoute'); // Import routes
+const connectDB = require('./config/db'); // Database connection
+const sampleRoutes = require('./routes/sampleRoute'); // Routes
 
 const app = express();
 
@@ -13,15 +13,15 @@ app.use(bodyParser.json());
 // Connect to MongoDB
 connectDB();
 
-// Root route for health check
+// Base route for health check
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to the Route Service API!' });
 });
 
-// Register sample routes under /route-service
+// Use routes
 app.use('/route-service', sampleRoutes);
 
-// Fallback route for undefined endpoints
+// Fallback route for undefined paths
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });

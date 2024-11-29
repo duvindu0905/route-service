@@ -1,4 +1,4 @@
-const Route = require('../models/sampleModel'); // Import the Mongoose model
+const Route = require('../models/sampleModel'); // Import the Route model
 
 // Get all routes
 exports.getAllRoutes = async (req, res) => {
@@ -10,10 +10,10 @@ exports.getAllRoutes = async (req, res) => {
   }
 };
 
-// Get a specific route by MongoDB _id
-exports.getRouteById = async (req, res) => {
+// Get a route by routeNumber
+exports.getRouteByNumber = async (req, res) => {
   try {
-    const route = await Route.findById(req.params.id);
+    const route = await Route.findOne({ routeNumber: req.params.routeNumber });
     if (!route) {
       return res.status(404).json({ message: 'Route not found' });
     }
@@ -23,7 +23,7 @@ exports.getRouteById = async (req, res) => {
   }
 };
 
-// Get a specific route by routeId
+// Get a route by routeId
 exports.getRouteByRouteId = async (req, res) => {
   try {
     const route = await Route.findOne({ routeId: req.params.routeId });
@@ -41,12 +41,11 @@ exports.createRoute = async (req, res) => {
   try {
     const { routeId, routeNumber, routeName, startLocation, endLocation, travelDistance, travelDuration } = req.body;
 
-    // Validate required fields
     if (!routeId || !routeNumber || !routeName || !startLocation || !endLocation || !travelDistance || !travelDuration) {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    const route = new Route({
+    const newRoute = new Route({
       routeId,
       routeNumber,
       routeName,
@@ -56,7 +55,7 @@ exports.createRoute = async (req, res) => {
       travelDuration,
     });
 
-    const savedRoute = await route.save();
+    const savedRoute = await newRoute.save();
     res.status(201).json(savedRoute);
   } catch (err) {
     res.status(400).json({ message: 'Failed to create route', error: err.message });
