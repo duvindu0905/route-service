@@ -23,18 +23,6 @@ exports.getRouteByNumber = async (req, res) => {
   }
 };
 
-// Get a route by routeId
-exports.getRouteByRouteId = async (req, res) => {
-  try {
-    const route = await Route.findOne({ routeId: req.params.routeId });
-    if (!route) {
-      return res.status(404).json({ message: 'Route not found' });
-    }
-    res.status(200).json(route);
-  } catch (err) {
-    res.status(500).json({ message: 'Failed to fetch route', error: err.message });
-  }
-};
 
 // Create a new route
 exports.createRoute = async (req, res) => {

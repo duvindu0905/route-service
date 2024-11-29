@@ -61,55 +61,7 @@
         }
       }
     },
-    "/route-service/routes/{id}": {
-      "get": {
-        "summary": "Get a route by ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Route found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Route"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Route not found"
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete a route by ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Route deleted"
-          }
-        }
-      }
-    },
-    "/route-service/routes/{routeNumber}": {
+    "/route-service/routes/routeNumber/{routeNumber}": {
       "get": {
         "summary": "Get a route by route number",
         "parameters": [
