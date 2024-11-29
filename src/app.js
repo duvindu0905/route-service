@@ -1,8 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const swaggerUi = require('swagger-ui-express');
 const connectDB = require('./config/db'); // Database connection
 const sampleRoutes = require('./routes/sampleRoute'); // Routes
+const swaggerDocument = require('../swagger/swagger.json');
+
 
 const app = express();
 
@@ -17,6 +20,9 @@ connectDB();
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to the Route Service API!' });
 });
+
+// Swagger UI route
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Use routes
 app.use('/route-service', sampleRoutes);
