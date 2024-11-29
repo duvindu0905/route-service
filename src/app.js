@@ -21,8 +21,9 @@ app.get('/', (req, res) => {
   res.json({ message: 'Welcome to the Route Service API!' });
 });
 
-// Swagger UI route
+
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 // Use routes
 app.use('/route-service', sampleRoutes);

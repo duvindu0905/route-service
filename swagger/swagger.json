@@ -108,6 +108,37 @@
           }
         }
       }
+    },
+    "/route-service/routes/{routeNumber}": {
+      "get": {
+        "summary": "Get a route by route number",
+        "parameters": [
+          {
+            "name": "routeNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The route number of the route to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Route found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Route"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Route not found"
+          }
+        }
+      }
     }
   },
   "components": {
