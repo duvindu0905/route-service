@@ -3,7 +3,7 @@ const Route = require('../models/sampleModel'); // Import the Route model
 // Get all routes
 exports.getAllRoutes = async (req, res) => {
   try {
-    const routes = await Route.find();
+    const routes = await Route.find().select('-_id -__v'); // Exclude `_id` and `__v`
     res.status(200).json(routes);
   } catch (err) {
     res.status(500).json({ message: 'Failed to fetch routes', error: err.message });
@@ -13,7 +13,7 @@ exports.getAllRoutes = async (req, res) => {
 // Get a route by routeNumber
 exports.getRouteByNumber = async (req, res) => {
   try {
-    const route = await Route.findOne({ routeNumber: req.params.routeNumber });
+    const route = await Route.findOne({ routeNumber: req.params.routeNumber }).select('-_id -__v'); // Exclude `_id` and `__v`
     if (!route) {
       return res.status(404).json({ message: 'Route not found' });
     }
@@ -22,7 +22,6 @@ exports.getRouteByNumber = async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch route', error: err.message });
   }
 };
-
 
 // Create a new route
 exports.createRoute = async (req, res) => {
@@ -44,20 +43,25 @@ exports.createRoute = async (req, res) => {
     });
 
     const savedRoute = await newRoute.save();
-    res.status(201).json(savedRoute);
+    const response = savedRoute.toObject(); // Convert the document to a plain object
+    delete response._id; // Remove `_id`
+    delete response.__v; // Remove `__v`
+
+    res.status(201).json(response);
   } catch (err) {
     res.status(400).json({ message: 'Failed to create route', error: err.message });
   }
 };
 
+// Delete a route by routeNumber
 exports.deleteRouteByRouteNumber = async (req, res) => {
-    try {
-      const route = await Route.findOneAndDelete({ routeNumber: req.params.routeNumber });
-      if (!route) {
-        return res.status(404).json({ message: 'Route not found' });
-      }
-      res.status(204).send(); // No Content
-    } catch (err) {
-      res.status(500).json({ message: 'Failed to delete route', error: err.message });
+  try {
+    const route = await Route.findOneAndDelete({ routeNumber: req.params.routeNumber });
+    if (!route) {
+      return res.status(404).json({ message: 'Route not found' });
     }
-  };
+    res.status(204).send(); // No Content
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to delete route', error: err.message });
+  }
+};
