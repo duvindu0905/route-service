@@ -28,10 +28,18 @@ exports.createRoute = async (req, res) => {
   try {
     const { routeId, routeNumber, routeName, startLocation, endLocation, travelDistance, travelDuration } = req.body;
 
+    // Validate required fields
     if (!routeId || !routeNumber || !routeName || !startLocation || !endLocation || !travelDistance || !travelDuration) {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
+    // Check if the routeNumber or routeId already exists
+    const existingRoute = await Route.findOne({ $or: [{ routeNumber }, { routeId }] });
+    if (existingRoute) {
+      return res.status(400).json({ message: 'Route with this routeNumber or routeId already exists' });
+    }
+
+    // Create the route
     const newRoute = new Route({
       routeId,
       routeNumber,
@@ -60,7 +68,7 @@ exports.deleteRouteByRouteNumber = async (req, res) => {
     if (!route) {
       return res.status(404).json({ message: 'Route not found' });
     }
-    res.status(204).send(); // No Content
+    res.status(200).json({ message: 'Route deleted successfully' });
   } catch (err) {
     res.status(500).json({ message: 'Failed to delete route', error: err.message });
   }
