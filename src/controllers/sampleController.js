@@ -50,15 +50,14 @@ exports.createRoute = async (req, res) => {
   }
 };
 
-// Delete a route by MongoDB _id
-exports.deleteRoute = async (req, res) => {
-  try {
-    const route = await Route.findByIdAndDelete(req.params.id);
-    if (!route) {
-      return res.status(404).json({ message: 'Route not found' });
+exports.deleteRouteByRouteNumber = async (req, res) => {
+    try {
+      const route = await Route.findOneAndDelete({ routeNumber: req.params.routeNumber });
+      if (!route) {
+        return res.status(404).json({ message: 'Route not found' });
+      }
+      res.status(204).send(); // No Content
+    } catch (err) {
+      res.status(500).json({ message: 'Failed to delete route', error: err.message });
     }
-    res.status(204).send(); // No Content
-  } catch (err) {
-    res.status(500).json({ message: 'Failed to delete route', error: err.message });
-  }
-};
+  };

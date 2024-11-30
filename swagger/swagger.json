@@ -61,7 +61,7 @@
         }
       }
     },
-    "/route-service/routes/routeNumber/{routeNumber}": {
+    "/route-service/routes/{routeNumber}": {
       "get": {
         "summary": "Get a route by route number",
         "parameters": [
@@ -85,6 +85,28 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Route not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a route by route number",
+        "parameters": [
+          {
+            "name": "routeNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The route number of the route to delete"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Route deleted successfully"
           },
           "404": {
             "description": "Route not found"
