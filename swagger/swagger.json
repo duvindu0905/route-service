@@ -11,7 +11,7 @@
       "description": "Development Server"
     },
     {
-      "url": "https://api.bussewaya.online",
+      "url": "https://api.routeservice.bussewaya.online",
       "description": "Production Server"
     }
   ],
