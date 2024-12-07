@@ -10,6 +10,7 @@ exports.getAllRoutes = async (req, res) => {
   }
 };
 
+
 // Get a route by routeNumber
 exports.getRouteByNumber = async (req, res) => {
   try {
