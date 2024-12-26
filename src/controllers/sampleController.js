@@ -14,6 +14,10 @@ exports.getAllRoutes = async (req, res) => {
 // Get a route by routeNumber
 exports.getRouteByNumber = async (req, res) => {
   try {
+    console.log(`abcetjjiguguyf,${req.params.routeNumber}`)
+    console.log(`abcetjjiguguyf,${req.params.routeNumber}`)
+    console.log(`abcetjjiguguyf,${req.params.routeNumber}`)
+    
     const route = await Route.findOne({ routeNumber: req.params.routeNumber }).select('-_id -__v'); // Exclude `_id` and `__v`
     if (!route) {
       return res.status(404).json({ message: 'Route not found' });
