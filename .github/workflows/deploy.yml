@@ -34,3 +34,5 @@ jobs:
             --platform managed \
             --allow-unauthenticated \
             --set-env-vars JWT_SECRET=${{ secrets.JWT_SECRET }},MONGO_URI_ROUTE=${{ secrets.MONGO_URI_ROUTE }},PORT=8080
+
+            
