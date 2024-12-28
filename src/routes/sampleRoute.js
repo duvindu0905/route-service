@@ -1,26 +1,15 @@
 const express = require('express');
-const {
-  getAllRoutes,
-  getRouteByNumber,
-  getRouteByRouteId,
-  createRoute,
-  deleteRouteByRouteNumber
-} = require('../controllers/sampleController');
+const authorizeAdmin = require('../middleware/authorizeAdmin'); // Correct path
+const { getAllRoutes, getRouteByNumber, createRoute, deleteRouteByRouteNumber } = require('../controllers/sampleController');
 
 const router = express.Router();
 
-// Import the authorization middleware
-const authorizeAdmin = require('../middleware/authorizeAdmin');
-
-// Define routes with authorization middleware applied
-router.get('/routes', getAllRoutes);  // Get all routes - Accessible to all authenticated users
-router.get('/routes/:routeNumber', getRouteByNumber); // Get route by routeNumber - Accessible to all authenticated users
-
-// Create a new route - Only accessible by ntcAdmin
-router.post('/routes', authorizeAdmin, createRoute);  // Apply the middleware to the post request
-
-// Delete a route by routeNumber - Only accessible by ntcAdmin
-router.delete('/routes/:routeNumber', authorizeAdmin, deleteRouteByRouteNumber);  // Apply the middleware to the delete request
+// Use the middleware for the routes that require admin authorization
+router.get('/routes', authorizeAdmin, getAllRoutes);  // Get all routes (requires admin)
+router.get('/routes/:routeNumber', authorizeAdmin, getRouteByNumber); // Get route by routeNumber (requires admin)
+router.post('/routes', authorizeAdmin, createRoute); // Create a new route (requires admin)
+router.delete('/routes/:routeNumber', authorizeAdmin, deleteRouteByRouteNumber); // Delete a route (requires admin)
 
 module.exports = router;
+
 
