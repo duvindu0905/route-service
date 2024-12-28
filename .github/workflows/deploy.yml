@@ -25,7 +25,6 @@ jobs:
         run: |
           gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
           gcloud config set run/region us-central1
-
       # Step 4: Deploy to Cloud Run
       - name: Deploy to Cloud Run
         run: |
@@ -33,4 +32,4 @@ jobs:
             --source . \
             --platform managed \
             --allow-unauthenticated \
-            --set-env-vars=MONGO_URI_ROUTE=${{ secrets.MONGO_URI_ROUTE }},JWT_SECRET=${{ secrets.JWT_SECRET }}
+            --set-env-vars=MONGO_URI_ROUTE=${{ secrets.MONGO_URI_ROUTE }}

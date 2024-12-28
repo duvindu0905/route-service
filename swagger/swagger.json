@@ -39,11 +39,6 @@
       "post": {
         "summary": "Create a new route",
         "tags": ["Route"],  
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -102,11 +97,6 @@
       "delete": {
         "summary": "Delete a route by route number",
         "tags": ["Route"], 
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "parameters": [
           {
             "name": "routeNumber",
@@ -130,14 +120,6 @@
     }
   },
   "components": {
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT",
-        "description": "JWT Authorization header using the Bearer scheme"
-      }
-    },
     "schemas": {
       "Route": {
         "type": "object",
