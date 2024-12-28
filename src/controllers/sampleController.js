@@ -11,19 +11,25 @@ exports.getAllRoutes = async (req, res) => {
 };
 
 
-// Get a route by routeNumber
 exports.getRouteByNumber = async (req, res) => {
   try {
+    const routeNumber = req.params.routeNumber;
+    console.log(`Received routeNumber: ${routeNumber}`);  // Log the routeNumber
+
+    const route = await Route.findOne({ routeNumber }).select('-_id -__v');
     
-    const route = await Route.findOne({ routeNumber: req.params.routeNumber }).select('-_id -__v'); // Exclude `_id` and `__v`
     if (!route) {
+      console.log(`Route ${routeNumber} not found`);  // Log if route is not found
       return res.status(404).json({ message: 'Route not found' });
     }
+    
     res.status(200).json(route);
   } catch (err) {
+    console.error('Error fetching route:', err);
     res.status(500).json({ message: 'Failed to fetch route', error: err.message });
   }
 };
+
 
 // Create a new route
 exports.createRoute = async (req, res) => {
