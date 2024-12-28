@@ -33,5 +33,4 @@ jobs:
             --source . \
             --platform managed \
             --allow-unauthenticated \
-            --set-env-vars=MONGO_URI_ROUTE=${{ secrets.MONGO_URI_ROUTE }},PORT=${{ secrets.PORT }},JWT_SECRET=${{ secrets.JWT_SECRET }} \
-            --region us-central1
+            --set-env-vars=MONGO_URI_ROUTE=${{ secrets.MONGO_URI_ROUTE }},JWT_SECRET=${{ secrets.JWT_SECRET }}
